@@ -16,6 +16,7 @@ return {
     "ts_ls",
     "typst_lsp",
     "yamlls",
+    "jdtls",
   },
 
   tools = {

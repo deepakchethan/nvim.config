@@ -25,5 +25,6 @@ return {
     "toml",
     "vim",
     "yaml",
+    "sql",
   },
 }

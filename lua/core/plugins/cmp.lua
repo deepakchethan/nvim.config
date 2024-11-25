@@ -3,13 +3,21 @@ local icons = require("utils.icons")
 local M = {
   "iguanacucumber/magazine.nvim",
   name = "nvim-cmp",
-  event = { "InsertEnter", "CmdlineEnter" },
+  -- event = { "InsertEnter", "CmdlineEnter" },
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-calc",
     "lukas-reineke/cmp-rg",
     "saadparwaiz1/cmp_luasnip",
+    {
+      "MattiasMTS/cmp-dbee",
+      dependencies = {
+        { "kndndrj/nvim-dbee" },
+      },
+      ft = "sql", -- optional but good to have
+      opts = {}, -- needed
+    },
   },
   config = function()
     local cmp = require("cmp")
@@ -21,12 +29,9 @@ local M = {
       { name = "calc", priority = 200 },
       { name = "path", priority = 300 },
       { name = "rg", keyword_length = 3, priority = 400 },
-      { name = "orgmode", priority = 300}
+      { name = "orgmode", priority = 300 },
+      { name = "cmp-dbee", priority = 1000 },
     }
-
-    if vim.g.config.plugins.emoji.enable then
-      table.insert(sources, { name = "emoji" })
-    end
 
     local format = {
       mode = "symbol",

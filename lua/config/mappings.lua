@@ -58,7 +58,6 @@ map({ "n" }, "<leader>sr", ":%s/", { desc = "Buffer search and replace" })
 
 -- toggles
 map("n", "<leader>tn", function()
-  vim.o.number = vim.o.number == false and true or false
   vim.o.relativenumber = vim.o.relativenumber == false and true or false
 end, { desc = "Toggle relative number" })
 map("n", "<leader>th", function()

@@ -1,7 +1,7 @@
 local user_config = vim.g.config.plugins.harpoon or {}
 
 local default_config = {
-  enabled = false,
+  enabled = true,
   opts = {},
   keys = {
     -- stylua: ignore start

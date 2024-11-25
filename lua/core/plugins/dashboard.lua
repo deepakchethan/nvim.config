@@ -4,14 +4,14 @@ return {
   opts = {
     config = {
       header = {
-      "",
-      "  ██╗  ██╗███████╗██╗   ██╗    ██████╗  ██████╗  ",
-      "  ██║  ██║██╔════╝╚██╗ ██╔╝    ██╔══██╗██╔════╝  ",
-      "  ███████║█████╗   ╚████╔╝     ██║  ██║██║       ",
-      "  ██╔══██║██╔══╝    ╚██╔╝      ██║  ██║██║       ",
-      "  ██║  ██║███████╗   ██║       ██████╔╝╚██████╗  ",
-      "  ╚═╝  ╚═╝╚══════╝   ╚═╝       ╚═════╝  ╚═════╝  ",
-      ""
+        "",
+        "  ██╗  ██╗███████╗██╗   ██╗    ██████╗  ██████╗  ",
+        "  ██║  ██║██╔════╝╚██╗ ██╔╝    ██╔══██╗██╔════╝  ",
+        "  ███████║█████╗   ╚████╔╝     ██║  ██║██║       ",
+        "  ██╔══██║██╔══╝    ╚██╔╝      ██║  ██║██║       ",
+        "  ██║  ██║███████╗   ██║       ██████╔╝╚██████╗  ",
+        "  ╚═╝  ╚═╝╚══════╝   ╚═╝       ╚═════╝  ╚═════╝  ",
+        "",
       },
       shortcut = {
         {
@@ -32,6 +32,18 @@ return {
           action = "Telescope live_grep",
           key = "s",
         },
+        {
+          icon = "󰹈 ",
+          desc = "Projects",
+          action = "NeovimProjectDiscover",
+          key = "p",
+        },
+        {
+          icon = "⛁ ",
+          desc = "Dbee",
+          action = "Dbee",
+          key = "d",
+        },
         { icon = " ", desc = "Lazy", group = "Label", action = "Lazy check", key = "l" },
         { desc = "Quit", group = "Number", action = "q", key = "q" },
       },
@@ -46,10 +58,10 @@ return {
       footer = {
         "",
         "",
-        "Live Fast. Be Wild. Die Young. Have fun",
+        "Live Fast. Be Wild. Die Young. Have Fun.",
         "",
         "",
-      }
+      },
     },
   },
   config = function(_, opts)

@@ -19,14 +19,14 @@ local default_config = {
     keys = {
       {"<leader>d", "", desc = "+Debug" },
       { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
-      { "<leader>dc", function() require("dap").run_to_cursor() end, desc = "Continue" },
+      { "<leader>dc", function() require("dap").continue() end, desc = "Continue" },
       { "<leader>di", function() require("dap").step_into() end, desc = "Step Into" },
       { "<leader>dn", function() require("dap").step_over() end, desc = "Step Over" },
       { "<leader>do", function() require("dap").step_out() end, desc = "Step Out" },
       { "<leader>du", function() require("dap").up() end, desc = "Up" },
       { "<leader>dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
       { "<leader>dS", function() require("dap").continue({ before = get_args }) end, desc = "Run with Args" },
-      { "<leader>ds", function() require("dap").continue() end, desc = "Run" },
+      { "<leader>ds", function() require("dap").continue( { new = true }) end, desc = "Run" },
       { "<leader>dC", function() require("dap").run_to_cursor() end, desc = "Run to Cursor", },
       { "<leader>dl", function() require("dap").run_last() end, desc = "Run Last" },
       { "<leader>dt", function() require("dap").terminate() end, desc = "Terminate" },
@@ -79,10 +79,25 @@ return {
           dap.listeners.before.event_exited["dapui_config"] = function()
             dapui.close({})
           end
-
+          dap.configurations.java = {
+            {
+              name = "RS Dbg",
+              type = "java",
+              request = "launch",
+              hostname = "127.0.0.1",
+              port = "1044",
+              envFile = "/Users/I506629/tps/.projects/tps-registration-service.sh",
+            },
+            {
+              name = "Custom Java Run",
+              type = "java",
+              request = "launch",
+              vmArgs = "",
+            },
+          }
           local dap_breakpoint = {
             error = {
-              text = "🟥",
+              text = "🔴",
               texthl = "LspDiagnosticsSignError",
               linehl = "",
               numhl = "",

@@ -187,7 +187,7 @@ local default_config = {
       layout_strategy = "flex",
       results_title = false,
       layout_config = {
-        prompt_position = "top",
+        prompt_position = "bottom",
       },
       winblend = 0, -- transparency
       borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
@@ -215,6 +215,7 @@ end
 return {
   {
     "nvim-telescope/telescope.nvim",
+    tag = "0.1.8",
     cmd = "Telescope",
     dependencies = {
       { "telescope-fzf-native.nvim", optional = true },
