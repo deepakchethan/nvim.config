@@ -46,7 +46,6 @@ return {
           terraform = { "terraform_fmt" },
           ["terraform-vars"] = { "terraform_fmt" },
           tex = { "latexindent" },
-          typst = { "typstfmt" },
           yaml = { "yamlfmt" },
         },
       },

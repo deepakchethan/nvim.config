@@ -39,7 +39,7 @@ return {
         auto_refresh = true,
         debounce = 75,
       },
-      panel = { 
+      panel = {
         enabled = true,
         auto_refresh = true,
         keymap = {

@@ -1,7 +1,7 @@
 local user_config = vim.g.config.plugins.todo_comments or {}
 
 local default_config = {
-  enabled = false,
+  enabled = true,
   event = { "VeryLazy" },
   opts = {},
   keys = {

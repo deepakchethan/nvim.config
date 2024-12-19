@@ -14,7 +14,6 @@ return {
     "terraformls",
     "texlab",
     "ts_ls",
-    "typst_lsp",
     "yamlls",
     "jdtls",
   },
@@ -25,7 +24,6 @@ return {
     "prettier",
     "stylua",
     "shfmt",
-    "typstfmt",
     -- Linter
     "hadolint",
     "eslint_d",

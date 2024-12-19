@@ -4,7 +4,8 @@ return {
     projects = { -- define project roots
       "~/tps/*",
       "~/Git/OSS/*",
-      "/Users/I506629/.local/state/nvim/*",
+      "/Users/I506629/.local/state/nvim",
+      "/Users/I506629/SAPDevelop/AN/src/git/AN",
     },
     picker = {
       type = "telescope", -- or "fzf-lua"

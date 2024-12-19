@@ -70,7 +70,14 @@ return {
       require("mason-lspconfig").setup({
         handlers = {
           function(server_name)
-            local server = conf.lsp_servers[server_name] or {}
+            local server = conf.lsp_servers[server_name]
+              or {
+                handlers = {
+                  -- By assigning an empty function, you can remove the notifications
+                  -- printed to the cmd
+                  ["$/progress"] = function(_, result, ctx) end,
+                },
+              }
 
             server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
             require("lspconfig")[server_name].setup(server)
