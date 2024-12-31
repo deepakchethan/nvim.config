@@ -103,3 +103,4 @@ map("n", "<leader>za", "zg", { desc = "Add word" })
 -- Reload snippets folder
 -- TODO make path system independent
 map("n", "<leader>ms", "<cmd>source ~/.config/nvim/snippets/*<cr>", { desc = "Reload snippets" })
+map("n", "<leader>md", "<cmd>Dashboard<cr>", { desc = "Open Dashboard" })

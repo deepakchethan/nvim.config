@@ -19,6 +19,7 @@ local default_config = {
     keys = {
       {"<leader>d", "", desc = "+Debug" },
       { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
+      { "<leader>dB", function() require("dap").clear_breakpoints() end, desc = "Clear Breakpoints" },
       { "<leader>dc", function() require("dap").continue() end, desc = "Continue" },
       { "<leader>di", function() require("dap").step_into() end, desc = "Step Into" },
       { "<leader>dn", function() require("dap").step_over() end, desc = "Step Over" },
@@ -81,18 +82,11 @@ return {
           end
           dap.configurations.java = {
             {
-              name = "RS Dbg",
               type = "java",
-              request = "launch",
-              hostname = "127.0.0.1",
-              port = "1044",
-              envFile = "/Users/I506629/tps/.projects/tps-registration-service.sh",
-            },
-            {
-              name = "Custom Java Run",
-              type = "java",
-              request = "launch",
-              vmArgs = "",
+              request = "attach",
+              name = "Debug (Attach) - Remote",
+              hostName = "127.0.0.1",
+              port = 5005,
             },
           }
           local dap_breakpoint = {
