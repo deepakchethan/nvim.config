@@ -15,7 +15,6 @@ return {
     "texlab",
     "ts_ls",
     "yamlls",
-    "jdtls",
   },
 
   tools = {
@@ -25,7 +24,6 @@ return {
     "stylua",
     "shfmt",
     -- Linter
-    "hadolint",
     "eslint_d",
     "shellcheck",
     "selene",

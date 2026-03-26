@@ -19,7 +19,9 @@ local default_config = {
       no_overlap = false,
     },
     spec = {
+      { "<leader>a", group = "Avante" },
       { "<leader>b", group = "Buffers" },
+      { "<leader>c", group = "Claude" },
       { "<leader>f", group = "Files" },
       { "<leader>l", group = "LSP" },
       { "<leader>m", group = "Misc" },

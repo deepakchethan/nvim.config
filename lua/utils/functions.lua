@@ -59,12 +59,12 @@ end
 
 --- Check if path exists
 M.path_exists = function(path)
-  return vim.loop.fs_stat(path)
+  return vim.uv.fs_stat(path)
 end
 
 -- Return telescope files command
 M.project_files = function()
-  local path = vim.loop.cwd() .. "/.git"
+  local path = vim.uv.cwd() .. "/.git"
   if M.path_exists(path) then
     local show_untracked = M.safe_nested_config(vim.g.config.plugins, "telescope", "show_untracked_files")
     return "lua require('telescope.builtin').git_files({ show_untracked = " .. tostring(show_untracked) .. " })"
@@ -185,12 +185,12 @@ end
 function M.load_user_config()
   local home = M.get_home()
   local config_file = home .. M.path_separator() .. ".nvim_config.lua"
-  local ok, err = pcall(dofile, config_file)
+  local ok, result = pcall(dofile, config_file)
   if not ok then
-    M.notify("Can not load user config: " .. err, vim.log.levels.INFO, "utils")
+    M.notify("Can not load user config: " .. result, vim.log.levels.INFO, "utils")
     return {}
   else
-    return dofile(config_file)
+    return result
   end
 end
 

@@ -126,8 +126,13 @@ return {
         "mfussenegger/nvim-dap-python",
         keys = config.dap_python.keys,
         config = function()
-          local path = require("mason-registry").get_package("debugpy"):get_install_path()
-          require("dap-python").setup(path .. "/venv/bin/python")
+          local ok, mr = pcall(require, "mason-registry")
+          if ok then
+            local pkg = mr.get_package("debugpy")
+            if pkg and pkg:is_installed() then
+              require("dap-python").setup(pkg:get_install_path() .. "/venv/bin/python")
+            end
+          end
         end,
       },
       {

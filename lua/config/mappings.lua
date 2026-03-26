@@ -28,7 +28,7 @@ map("n", "<leader>w=", "<cmd>wincmd =<cr>", { desc = "Equalize size" })
 map("n", "<leader>wk", "<cmd>resize +5<cr>", { desc = "Up" })
 map("n", "<leader>wj", "<cmd>resize -5<cr>", { desc = "Down" })
 map("n", "<leader>wh", "<cmd>vertical resize +3<cr>", { desc = "Left" })
-map("n", "<leader>wl", "<cmd>vertical resizce -3<cr>", { desc = "Right" })
+map("n", "<leader>wl", "<cmd>vertical resize -3<cr>", { desc = "Right" })
 
 -- buffers
 map("n", "<tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
@@ -101,6 +101,8 @@ map("n", "<leader>zk", "[s", { desc = "Previous error" })
 map("n", "<leader>za", "zg", { desc = "Add word" })
 
 -- Reload snippets folder
--- TODO make path system independent
-map("n", "<leader>ms", "<cmd>source ~/.config/nvim/snippets/*<cr>", { desc = "Reload snippets" })
+map("n", "<leader>ms", function()
+  local snippets_path = vim.fn.stdpath("config") .. "/snippets/*"
+  vim.cmd("source " .. snippets_path)
+end, { desc = "Reload snippets" })
 map("n", "<leader>md", "<cmd>Dashboard<cr>", { desc = "Open Dashboard" })

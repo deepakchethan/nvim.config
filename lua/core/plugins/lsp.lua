@@ -6,30 +6,128 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       { "onsails/lspkind-nvim" },
-      { "folke/neoconf.nvim", config = true, ft = "lua" }, -- must be loaded before lsp
-      { "nvim-java/nvim-java", config = true, ft = "java" },
+      { "folke/neoconf.nvim", config = true },
     },
     config = function()
-      require("core.plugins.lsp.lsp")
+      local lsp_settings = require("core.plugins.lsp.settings")
+      local utils = require("core.plugins.lsp.utils")
+
+      -- Setup capabilities for nvim-cmp
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+      -- Configure LSP servers using vim.lsp.config (Neovim 0.11+)
+      local common_config = {
+        capabilities = capabilities,
+        flags = { debounce_text_changes = 150 },
+        settings = {
+          json = lsp_settings.json,
+          Lua = lsp_settings.lua,
+          gopls = lsp_settings.gopls,
+          redhat = { telemetry = { enabled = false } },
+          yaml = lsp_settings.yaml,
+        },
+      }
+
+      for _, lsp in ipairs(conf.lsp_servers) do
+        vim.lsp.config(lsp, common_config)
+      end
+
+      -- Enable all configured LSP servers
+      vim.lsp.enable(conf.lsp_servers)
+
+      -- Custom LSP servers (not from Mason)
+      vim.lsp.config("sourcekit", {
+        capabilities = {
+          workspace = {
+            didChangeWatchedFiles = {
+              dynamicRegistration = true,
+            },
+          },
+        },
+      })
+      vim.lsp.config("cds_lsp", {})
+      vim.lsp.enable({ "sourcekit", "cds_lsp" })
+
+      -- LSP keymaps on attach
+      vim.api.nvim_create_autocmd("LspAttach", {
+        desc = "LSP Actions",
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          local buffer = args.buf
+
+          require("core.plugins.lsp.keys").on_attach(client, buffer)
+
+          -- Telescope-based keymaps
+          local map = function(keys, func, desc)
+            vim.keymap.set("n", keys, func, { buffer = buffer, desc = "LSP: " .. desc })
+          end
+          local builtin = require("telescope.builtin")
+          map("gd", builtin.lsp_definitions, "Goto Definition")
+          map("gr", builtin.lsp_references, "Goto References")
+          map("gD", vim.lsp.buf.declaration, "Goto Declaration")
+
+          -- Document highlight
+          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+            local highlight_augroup = vim.api.nvim_create_augroup("thecoldstone-lsp-highlight", { clear = false })
+            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+              buffer = buffer,
+              group = highlight_augroup,
+              callback = vim.lsp.buf.document_highlight,
+            })
+          end
+
+          -- Gopls semantic tokens workaround
+          if client and client.name == "gopls" then
+            if not client.server_capabilities.semanticTokensProvider then
+              local semantic = client.config.capabilities.textDocument.semanticTokens
+              if semantic then
+                client.server_capabilities.semanticTokensProvider = {
+                  full = true,
+                  legend = {
+                    tokenTypes = semantic.tokenTypes,
+                    tokenModifiers = semantic.tokenModifiers,
+                  },
+                  range = true,
+                }
+              end
+            end
+          end
+        end,
+      })
+
+      -- LSP log level
+      if conf.plugins.lsp.log == "on" then
+        vim.lsp.set_log_level("debug")
+      end
     end,
   },
   {
     "williamboman/mason.nvim",
-    lazy = true,
+    lazy = false,
     cmd = "Mason",
     dependencies = {
-      { "williamboman/mason-lspconfig.nvim", module = "mason" },
+      { "williamboman/mason-lspconfig.nvim" },
     },
-    opts = function()
-      -- install_root_dir = path.concat({ vim.fn.stdpath("data"), "mason" }),
-      require("mason").setup()
+    config = function()
+      require("mason").setup({
+        registries = {
+          "github:mason-org/mason-registry",
+          "github:nvim-java/mason-registry",
+        },
+      })
 
-      -- ensure tools (except LSPs) are installed
+      require("mason-lspconfig").setup({
+        ensure_installed = conf.lsp_servers,
+        automatic_installation = true,
+      })
+
+      -- Ensure tools are installed
       local mr = require("mason-registry")
       local function install_ensured()
         for _, tool in ipairs(conf.tools) do
-          local p = mr.get_package(tool)
-          if not p:is_installed() then
+          local ok, p = pcall(mr.get_package, tool)
+          if ok and not p:is_installed() then
             p:install()
           end
         end
@@ -39,69 +137,6 @@ return {
       else
         install_ensured()
       end
-
-      vim.api.nvim_create_autocmd("LspAttach", {
-        desc = "LSP Actions",
-        callback = function(args)
-          local map = function(keys, func, desc)
-            vim.keymap.set("n", keys, func, { buffer = args.buf, desc = "LSP: " .. desc })
-          end
-          local builtin = require("telescope.builtin")
-
-          map("gd", builtin.lsp_definitions, "[G]oto [D]efinition")
-          map("gr", builtin.lsp_references, "[G]oto [R]eferences")
-          map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-
-          local client = vim.lsp.get_client_by_id(args.data.client_id)
-          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
-            local highlight_augroup = vim.api.nvim_create_augroup("thecoldstone-lsp-highlight", { clear = false })
-            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-              buffer = args.buf,
-              group = highlight_augroup,
-              callback = vim.lsp.buf.document_highlight,
-            })
-          end
-        end,
-      })
-
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-
-      require("mason-lspconfig").setup({
-        handlers = {
-          function(server_name)
-            local server = conf.lsp_servers[server_name]
-              or {
-                handlers = {
-                  -- By assigning an empty function, you can remove the notifications
-                  -- printed to the cmd
-                  ["$/progress"] = function(_, result, ctx) end,
-                },
-              }
-
-            server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-            require("lspconfig")[server_name].setup(server)
-          end,
-        },
-      })
-
-      -- install LSPs
-      require("mason-lspconfig").setup({ ensure_installed = conf.lsp_servers })
-
-      -- For CDS
-      local lspconfig = require("lspconfig")
-
-      lspconfig.sourcekit.setup({
-        capabilities = {
-          workspace = {
-            didChangeWatchedFiles = {
-              dynamicRegistration = true,
-            },
-          },
-        },
-      })
-
-      lspconfig.cds_lsp.setup({})
     end,
   },
 }
