@@ -10,14 +10,6 @@ local M = {
     "hrsh7th/cmp-calc",
     "lukas-reineke/cmp-rg",
     "saadparwaiz1/cmp_luasnip",
-    {
-      "MattiasMTS/cmp-dbee",
-      dependencies = {
-        { "kndndrj/nvim-dbee" },
-      },
-      ft = "sql", -- optional but good to have
-      opts = {}, -- needed
-    },
   },
   config = function()
     local cmp = require("cmp")
@@ -30,7 +22,6 @@ local M = {
       { name = "path", priority = 300 },
       { name = "rg", keyword_length = 3, priority = 400 },
       { name = "orgmode", priority = 300 },
-      { name = "cmp-dbee", priority = 1000 },
     }
 
     local format = {

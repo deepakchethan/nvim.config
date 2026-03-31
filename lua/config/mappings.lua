@@ -34,7 +34,7 @@ map("n", "<leader>wl", "<cmd>vertical resize -3<cr>", { desc = "Right" })
 map("n", "<tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("n", "<S-tab>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "<leader>bD", "<cmd>%bd|e#|bd#<cr>", { desc = "Close all but the current buffer" })
-map("n", "<leader>bd", "<cmd>Bdelete<cr>", { desc = "Close buffer" })
+map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Close buffer" })
 map("n", "<leader><tab>", "<cmd>b#<cr>", { desc = "Previously openend Buffer" })
 
 -- Cancel search highlighting with ESC

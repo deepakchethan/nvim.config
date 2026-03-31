@@ -128,9 +128,10 @@ return {
         config = function()
           local ok, mr = pcall(require, "mason-registry")
           if ok then
-            local pkg = mr.get_package("debugpy")
-            if pkg and pkg:is_installed() then
-              require("dap-python").setup(pkg:get_install_path() .. "/venv/bin/python")
+            local pkg_ok, pkg = pcall(mr.get_package, "debugpy")
+            if pkg_ok and pkg:is_installed() then
+              local install_path = vim.fn.stdpath("data") .. "/mason/packages/" .. pkg.name
+              require("dap-python").setup(install_path .. "/venv/bin/python")
             end
           end
         end,
