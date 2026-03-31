@@ -72,10 +72,6 @@ map("n", "<leader>tv", function()
   utils.notify("Toggling virtualedit", vim.log.levels.INFO, "core.mappings")
   vim.o.virtualedit = vim.o.virtualedit == "all" and "block" or "all"
 end, { desc = "Toggle virtualedit" })
-map("n", "<leader>ts", function()
-  utils.notify("Toggling spell", vim.log.levels.INFO, "core.mappings")
-  vim.o.spell = vim.o.spell == false and true or false
-end, { desc = "Toggle spell" })
 map("n", "<leader>tw", function()
   utils.notify("Toggling wrap", vim.log.levels.INFO, "core.mappings")
   vim.o.wrap = vim.o.wrap == false and true or false
@@ -92,13 +88,6 @@ map(
   { desc = "Toggle Virtualtext" }
 )
 map("n", "<leader>tS", "<cmd>windo set scb!<cr>", { desc = "Toggle Scrollbind" })
-
--- Spelling
-map("n", "<leader>zl", "<cmd>Telescope spell_suggest<cr>", { desc = "List corrections" })
-map("n", "<leader>zf", "1z=", { desc = "Use first correction" })
-map("n", "<leader>zj", "]s", { desc = "Next error" })
-map("n", "<leader>zk", "[s", { desc = "Previous error" })
-map("n", "<leader>za", "zg", { desc = "Add word" })
 
 -- Reload snippets folder
 map("n", "<leader>ms", function()
