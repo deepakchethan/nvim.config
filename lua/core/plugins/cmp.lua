@@ -66,6 +66,18 @@ local M = {
     end
 
     cmp.setup({
+      enabled = function()
+        -- Disable completion in terminal buffers for performance
+        if vim.bo.buftype == "terminal" then
+          return false
+        end
+        -- Disable completion in comments
+        local context = require("cmp.config.context")
+        if context.in_treesitter_capture("comment") or context.in_syntax_group("Comment") then
+          return false
+        end
+        return true
+      end,
       formatting = {
         format = lspkind.cmp_format(format),
       },

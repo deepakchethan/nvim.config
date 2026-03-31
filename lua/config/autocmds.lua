@@ -1,10 +1,16 @@
 local utils = require("utils.functions")
 local api = vim.api
 
---- Remove all trailing whitespace on save
+--- Remove all trailing whitespace on save (skip terminal buffers)
 local TrimWhiteSpaceGrp = api.nvim_create_augroup("TrimWhiteSpaceGrp", { clear = true })
 api.nvim_create_autocmd("BufWritePre", {
-  command = [[:%s/\s\+$//e]],
+  callback = function()
+    -- Skip terminal buffers
+    if vim.bo.buftype == "terminal" then
+      return
+    end
+    vim.cmd([[:%s/\s\+$//e]])
+  end,
   group = TrimWhiteSpaceGrp,
 })
 
@@ -120,14 +126,25 @@ api.nvim_create_autocmd(
 local cursorGrp = api.nvim_create_augroup("CursorLine", { clear = true })
 api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
   pattern = "*",
-  command = "set cursorline",
+  callback = function()
+    -- Skip terminal buffers for performance
+    if vim.bo.buftype ~= "terminal" then
+      vim.opt_local.cursorline = true
+    end
+  end,
   group = cursorGrp,
   desc = "show cursor line only in active window",
 })
-api.nvim_create_autocmd(
-  { "InsertEnter", "WinLeave" },
-  { pattern = "*", command = "set nocursorline", group = cursorGrp }
-)
+api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
+  pattern = "*",
+  callback = function()
+    -- Skip terminal buffers for performance
+    if vim.bo.buftype ~= "terminal" then
+      vim.opt_local.cursorline = false
+    end
+  end,
+  group = cursorGrp,
+})
 
 api.nvim_create_autocmd(
   { "BufRead", "BufNewFile" },
@@ -141,6 +158,28 @@ api.nvim_create_autocmd(
     desc = "Enable spell checking for certain file types",
   }
 )
+
+-- Performance optimizations for terminal buffers
+api.nvim_create_autocmd("TermOpen", {
+  group = api.nvim_create_augroup("TerminalPerformance", { clear = true }),
+  callback = function()
+    -- Disable treesitter highlighting in terminal for better performance
+    vim.cmd("TSBufDisable highlight")
+
+    -- Increase updatetime to reduce CursorHold frequency
+    vim.opt_local.updatetime = 2000
+
+    -- Disable cursorline for better performance
+    vim.opt_local.cursorline = false
+
+    -- Disable spell checking
+    vim.opt_local.spell = false
+
+    -- Disable swap file for terminal buffers
+    vim.opt_local.swapfile = false
+  end,
+  desc = "Optimize terminal buffer performance",
+})
 
 local db = utils.safe_nested_config(vim.g.config, "dashboard")
 if db == "none" then

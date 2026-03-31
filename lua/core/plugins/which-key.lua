@@ -4,6 +4,7 @@ local icons = require("utils.icons")
 local default_config = {
   opts = {
     preset = "modern",
+    delay = 200, -- delay before which-key popup appears (ms)
     icons = {
       mappings = false, -- disable icons in keymaps
       breadcrumb = icons.arrows.DoubleArrowRight, -- symbol used in the command line area that shows your active key combo

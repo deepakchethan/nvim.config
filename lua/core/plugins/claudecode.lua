@@ -13,14 +13,6 @@ return {
     { "<leader>cd", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
     { "<leader>cm", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select model" },
 
-    -- Terminal mode mappings (work from inside Claude terminal)
-    { "<leader>cc", "<cmd>ClaudeCode<cr>", mode = "t", desc = "Toggle Claude" },
-    { "<leader>cf", "<cmd>ClaudeCodeFocus<cr>", mode = "t", desc = "Focus Claude" },
-    { "<leader>cb", "<cmd>ClaudeCodeAdd %<cr>", mode = "t", desc = "Add current buffer" },
-    { "<leader>ca", "<cmd>ClaudeCodeDiffAccept<cr>", mode = "t", desc = "Accept diff" },
-    { "<leader>cd", "<cmd>ClaudeCodeDiffDeny<cr>", mode = "t", desc = "Deny diff" },
-    { "<leader>cm", "<cmd>ClaudeCodeSelectModel<cr>", mode = "t", desc = "Select model" },
-
     -- Quick escape from terminal mode
     { "<C-x>", [[<C-\><C-n>]], mode = "t", desc = "Exit terminal mode" },
   },

@@ -46,12 +46,12 @@ return {
     splitright = true, -- force all vertical splits to go to the right of current window
     swapfile = true, -- enable/disable swap file creation
     tabstop = 2, -- how many columns a tab counts for
-    timeoutlen = 400, -- time to wait for a mapped sequence to complete (in milliseconds)
+    timeoutlen = 200, -- time to wait for a mapped sequence to complete (in milliseconds)
     ttimeoutlen = 0, -- Time in milliseconds to wait for a key code sequence to complete
     undodir = fn.stdpath("data") .. "/undodir", -- set undo directory
     undofile = true, -- enable/disable undo file creation
     undolevels = 1000,
-    updatetime = 300, -- faster completion
+    updatetime = 1000, -- faster completion (increased from 300 for better performance)
     wildignorecase = true, -- When set case is ignored when completing file names and directories
     wildmode = "full", -- Command-line completion mode
     winminwidth = 5, -- minimum window width

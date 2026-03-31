@@ -38,12 +38,6 @@ return {
           action = "NeovimProjectDiscover",
           key = "p",
         },
-        {
-          icon = "⛁ ",
-          desc = "Dbee",
-          action = "Dbee",
-          key = "d",
-        },
         { icon = " ", desc = "Lazy", group = "Label", action = "Lazy check", key = "l" },
         { desc = "Quit", group = "Number", action = "q", key = "q" },
       },
