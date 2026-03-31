@@ -99,7 +99,6 @@ api.nvim_create_autocmd("BufReadPost", {
 api.nvim_create_autocmd("FileType", {
   pattern = {
     "dap-float",
-    "fugitive",
     "help",
     "man",
     "notify",

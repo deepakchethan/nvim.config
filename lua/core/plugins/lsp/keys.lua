@@ -1,32 +1,21 @@
 local M = {}
 
-local trouble_enabled, _ = pcall(require, "trouble")
 ---@type table<string><function|string>
-local lsp_key_mapping = {}
-
-if trouble_enabled then
-  lsp_key_mapping["document_diagnostics"] = "<cmd>Trouble diagnostics toggle filter.buf=0<cr>"
-  lsp_key_mapping["lsp_implementations"] = "<cmd>Trouble lsp_implementations toggle focus=false<cr>"
-  lsp_key_mapping["lsp_document_symbols"] = "<cmd>Trouble symbols toggle<cr>"
-  lsp_key_mapping["lsp_references"] = "<cmd>Trouble lsp_references toggle focus=false win.position=right<cr>"
-  lsp_key_mapping["lsp_definitions"] = "<cmd>Trouble lsp_definitions toggle focus=false<cr>"
-  lsp_key_mapping["lsp_type_definitions"] = "<cmd>Trouble lsp_type_definitions toggle focus=false<cr>"
-  lsp_key_mapping["workspace_diagnostics"] = "<cmd>Trouble diagnostics toggle<cr>"
-else
-  lsp_key_mapping["document_diagnostics"] = "<cmd>Telescope diagnostics bufnr=0<cr>"
-  lsp_key_mapping["lsp_implementations"] = function()
+local lsp_key_mapping = {
+  document_diagnostics = "<cmd>Telescope diagnostics bufnr=0<cr>",
+  lsp_implementations = function()
     require("telescope.builtin").lsp_implementations({ reuse_win = true })
-  end
-  lsp_key_mapping["lsp_document_symbols"] = "<cmd>Telescope lsp_document_symbols<cr>"
-  lsp_key_mapping["lsp_references"] = "<cmd>Telescope lsp_references<cr>"
-  lsp_key_mapping["workspace_diagnostics"] = "<cmd>Telescope diagnostics<cr>"
-  lsp_key_mapping["lsp_definitions"] = function()
+  end,
+  lsp_document_symbols = "<cmd>Telescope lsp_document_symbols<cr>",
+  lsp_references = "<cmd>Telescope lsp_references<cr>",
+  workspace_diagnostics = "<cmd>Telescope diagnostics<cr>",
+  lsp_definitions = function()
     require("telescope.builtin").lsp_definitions({ reuse_win = true })
-  end
-  lsp_key_mapping["lsp_type_definitions"] = function()
+  end,
+  lsp_type_definitions = function()
     require("telescope.builtin").lsp_type_definitions({ reuse_win = true })
-  end
-end
+  end,
+}
 
 M._keys = {
   { "<leader>ll", vim.diagnostic.open_float, desc = "Line Diagnostics" },

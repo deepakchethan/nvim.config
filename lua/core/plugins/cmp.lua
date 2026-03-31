@@ -21,7 +21,6 @@ local M = {
       { name = "calc", priority = 200 },
       { name = "path", priority = 300 },
       { name = "rg", keyword_length = 3, priority = 400 },
-      { name = "orgmode", priority = 300 },
     }
 
     local format = {

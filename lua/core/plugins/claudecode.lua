@@ -13,8 +13,8 @@ return {
     { "<leader>cd", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
     { "<leader>cm", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select model" },
 
-    -- Quick escape from terminal mode
-    { "<C-x>", [[<C-\><C-n>]], mode = "t", desc = "Exit terminal mode" },
+    -- Minimize Claude terminal from terminal mode
+    { "<C-x>", "<cmd>ClaudeCode<cr>", mode = "t", desc = "Minimize Claude terminal" },
   },
   cmd = {
     "ClaudeCode",

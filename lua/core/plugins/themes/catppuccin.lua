@@ -2,7 +2,6 @@ local catppuccin = require("catppuccin")
 local utils = require("utils.functions")
 
 local harpoon_enabled = utils.safe_nested_config(vim.g.config.plugins, "harpoon", "enabled")
-local trouble_enabled = utils.safe_nested_config(vim.g.config.plugins, "trouble", "enabled")
 
 catppuccin.setup({
   default_integrations = false,
@@ -16,8 +15,6 @@ catppuccin.setup({
     gitsigns = true,
     harpoon = harpoon_enabled,
     headlines = true,
-    indent_blankline = { enabled = true },
-    lsp_trouble = trouble_enabled,
     markdown = true,
     mason = true,
     mini = true,
@@ -43,8 +40,6 @@ catppuccin.setup({
     neotree = true,
     noice = true,
     notify = true,
-    overseer = true,
-    symbols_outline = true,
     telescope = true,
     treesitter = true,
     which_key = true,

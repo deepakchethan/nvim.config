@@ -20,8 +20,6 @@ local M = {
               "packer",
               "qf",
               "diff",
-              "fugitive",
-              "fugitiveblame",
             },
 
             -- if the buffer type is one of following, the window will be ignored

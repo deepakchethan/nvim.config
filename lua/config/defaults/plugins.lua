@@ -16,14 +16,6 @@ return {
       -- https://github.com/Robitx/gp.nvim
       enabled = false,
     },
-    gopher = {
-      -- https://github.com/olexsmir/gopher.nvim
-      enable = false,
-    },
-    indent_blankline = {
-      enable = false,
-      enable_scope = true,
-    },
     -- https://github.com/Allaman/kustomize.nvim
     kustomize = {
       dev = false,
@@ -53,10 +45,6 @@ return {
     noice = {
       enable = true, -- Noice heavily changes the Neovim UI ...
     },
-    overseer = {
-      -- https://github.com/stevearc/overseer.nvim
-      enable = false,
-    },
     spectre = {
       -- enable advanced search and replace
       -- https://github.com/nvim-pack/nvim-spectre
@@ -68,12 +56,9 @@ return {
         vt_position = "above", -- 'above'|'end_of_line'|'textwidth'
       },
     },
-    trouble = {
-      enabled = false,
-    },
     -- https://github.com/folke/zen-mode.nvim
     zenmode = {
-      enable = false,
+      enable = true,
     },
   },
 }
