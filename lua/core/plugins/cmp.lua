@@ -66,6 +66,10 @@ local M = {
 
     cmp.setup({
       enabled = function()
+        -- Disable completion in telescope prompt
+        if vim.bo.buftype == "prompt" then
+          return false
+        end
         -- Disable completion in terminal buffers for performance
         if vim.bo.buftype == "terminal" then
           return false

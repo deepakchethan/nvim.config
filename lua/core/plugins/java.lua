@@ -7,8 +7,7 @@ return {
   },
   config = function()
     -- Ensure JAVA_HOME is set for jdtls wrapper
-    vim.env.JAVA_HOME = vim.env.JAVA_HOME
-      or "/Library/Java/JavaVirtualMachines/sapmachine-21.jdk/Contents/Home"
+    vim.env.JAVA_HOME = "/Library/Java/JavaVirtualMachines/sapmachine-21.jdk/Contents/Home"
 
     require("java").setup({
       jdk = { auto_install = false },
